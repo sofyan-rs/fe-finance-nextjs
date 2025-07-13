@@ -1,4 +1,4 @@
-# BE Finance Tracker Next.js
+# FE Finance Tracker Next.js
 
 This is a frontend service for a finance tracker application built using Next.js + shadcn/ui
 
