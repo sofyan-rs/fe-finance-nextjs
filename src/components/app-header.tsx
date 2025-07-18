@@ -11,12 +11,24 @@ import { SidebarMenuButton, SidebarTrigger } from "./ui/sidebar";
 import Link from "next/link";
 import { AppBreadcrumb } from "./app-breadcrumb";
 import { Separator } from "./ui/separator";
+import { useGetMe } from "@/hooks/fetch/use-get-me";
+import { useEffect } from "react";
+import { useUserData } from "@/hooks/zustand/use-user-data";
 
-export const AppHeader = () => {
+export const AppHeader = ({ token }: { token: string }) => {
+  const { setToken, removeToken } = useUserData();
+
   const logout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     window.location.href = "/";
+    removeToken();
   };
+
+  const { data: user } = useGetMe({ token });
+
+  useEffect(() => {
+    setToken(token);
+  }, [token, setToken]);
 
   return (
     <div className="border-b p-2 flex items-center justify-between gap-5">
@@ -32,7 +44,7 @@ export const AppHeader = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton>
-              <User /> Sofyan R
+              <User /> {user?.name}
               <ChevronDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>

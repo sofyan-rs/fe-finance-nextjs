@@ -64,7 +64,7 @@ export function AppSidebar() {
     if (isMobile) {
       setOpenMobile(false);
     }
-  }, [pathname, isMobile]);
+  }, [pathname, isMobile, setOpenMobile]);
 
   return (
     <Sidebar>
