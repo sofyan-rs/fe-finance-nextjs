@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { userService } from "@/services/user-service";
 import { useGetMe } from "@/hooks/fetch/use-get-me";
-import { useUserData } from "@/hooks/zustand/use-user-data";
+import { useUserData } from "@/hooks/use-user-data";
 
 const formSchema = z.object({
   name: z.string().min(2, {

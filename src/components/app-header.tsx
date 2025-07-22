@@ -12,11 +12,23 @@ import Link from "next/link";
 import { AppBreadcrumb } from "./app-breadcrumb";
 import { Separator } from "./ui/separator";
 import { useGetMe } from "@/hooks/fetch/use-get-me";
-import { useEffect } from "react";
-import { useUserData } from "@/hooks/zustand/use-user-data";
+import { useEffect, useState } from "react";
+import { useUserData } from "@/hooks/use-user-data";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "./ui/button";
 
 export const AppHeader = ({ token }: { token: string }) => {
   const { setToken, removeToken } = useUserData();
+
+  const [showModalLogout, setShowModalLogout] = useState(false);
 
   const logout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -55,12 +67,36 @@ export const AppHeader = ({ token }: { token: string }) => {
             <DropdownMenuItem asChild>
               <Link href="/account">Account</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={logout} variant="destructive">
-              Sign out
+            <DropdownMenuItem
+              variant="destructive"
+              onClick={() => {
+                setShowModalLogout(true);
+              }}
+            >
+              Logout
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <Dialog open={showModalLogout} onOpenChange={setShowModalLogout}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you sure?</DialogTitle>
+            <DialogDescription>
+              This action will log you out of your account. Are you sure you
+              want to proceed?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button type="submit" onClick={logout}>
+              Yes, Logout
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -1,34 +1,32 @@
+"use client";
+
 import { DataTable } from "@/components/data-table";
-import { TitleContent } from "@/components/title-content";
-import { AppConfig } from "@/config/app-config";
-import { Metadata } from "next";
-import { IWallet, tableWalletColumns } from "./components/table-wallet-columns";
+import { tableWalletColumns } from "./components/table-wallet-columns";
+import { PageHeader } from "./components/page-header";
+import { ModalWalletRemove } from "./components/modal-wallet-remove";
+import { SheetWalletAdd } from "./components/sheet-wallet-add";
+import { useWallets } from "./hooks/use-wallet-queries";
+import { useUserData } from "@/hooks/use-user-data";
+import { SheetWalletEdit } from "./components/sheet-wallet-edit";
 
-export const metadata: Metadata = {
-  title: "Wallet - " + AppConfig.title,
-};
+export default function Page() {
+  const { token } = useUserData();
 
-async function getData(): Promise<IWallet[]> {
-  return [
-    {
-      id: "728ed52f",
-      name: "Bank BCA",
-    },
-    {
-      id: "728essaf",
-      name: "Bank JAGO",
-    },
-  ];
-}
-
-export default async function Page() {
-  const data = await getData();
+  const { data: wallets, isLoading } = useWallets({ token: token! });
 
   return (
     <>
-      <TitleContent title="Wallet" />
-      <div className="m-4">
-        <DataTable columns={tableWalletColumns} data={data} />
+      <PageHeader />
+      <div className="mx-4">
+        <DataTable
+          columns={tableWalletColumns}
+          data={wallets || []}
+          filterKey="name"
+          isLoading={isLoading}
+        />
+        <SheetWalletAdd />
+        <SheetWalletEdit />
+        <ModalWalletRemove />
       </div>
     </>
   );

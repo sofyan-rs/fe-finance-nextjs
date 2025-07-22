@@ -4,16 +4,10 @@ type UserData = {
   token?: string;
   setToken: (token: string) => void;
   removeToken: () => void;
-  // userData?: IUser;
-  // setUser: (user: IUser) => void;
-  // removeUser: () => void;
 };
 
 export const useUserData = create<UserData>((set) => ({
   token: undefined,
   setToken: (token: string) => set({ token }),
   removeToken: () => set({ token: undefined }),
-  // userData: undefined,
-  // setUser: (user: IUser) => set({ userData: user }),
-  // removeUser: () => set({ userData: undefined }),
 }));
