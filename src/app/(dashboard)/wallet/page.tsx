@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <>
       <PageHeader />
-      <div className="w-full max-w-full px-4">
+      <div className="flex-1 px-4 min-w-0">
         <DataTable
           columns={tableWalletColumns}
           data={wallets || []}
