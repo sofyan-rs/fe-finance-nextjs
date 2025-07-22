@@ -17,7 +17,7 @@ export default function Page() {
   return (
     <>
       <PageHeader />
-      <div className="mx-4">
+      <div className="flex-1 px-4 min-w-0">
         <DataTable
           columns={tableCategoryColumns}
           data={categories || []}

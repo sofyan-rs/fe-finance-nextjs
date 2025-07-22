@@ -9,13 +9,14 @@ export default async function Layout({
   children: React.ReactNode;
 }>) {
   const token = (await cookies()).get("token")?.value ?? "";
-
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="flex flex-col flex-1">
+      <main className="flex flex-col flex-1 min-w-0">
         <AppHeader token={token} />
-        <div className="flex flex-col flex-1">{children}</div>
+        <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+          {children}
+        </div>
       </main>
     </SidebarProvider>
   );
