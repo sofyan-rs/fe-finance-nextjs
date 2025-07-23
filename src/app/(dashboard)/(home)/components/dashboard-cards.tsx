@@ -6,14 +6,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Format } from "@/lib/formatter";
-import { TrendingDown, TrendingUp } from "lucide-react";
+import { BanknoteArrowDown, BanknoteArrowUp } from "lucide-react";
 
 export function DashboardCards() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <Card className="lg:col-span-2">
+      <Card className="lg:col-span-2 bg-primary text-primary-foreground">
         <CardHeader>
-          <CardDescription className="text-center">
+          <CardDescription className="text-center text-primary-foreground">
             Total Balance
           </CardDescription>
           <CardTitle className="text-center text-3xl font-semibold tabular-nums">
@@ -28,7 +28,7 @@ export function DashboardCards() {
             {Format.currency(20000, "IDR")}
           </CardTitle>
           <CardAction className="bg-green-100 text-green-500 dark:bg-zinc-950 p-3 rounded-lg">
-            <TrendingUp />
+            <BanknoteArrowUp />
           </CardAction>
         </CardHeader>
         {/* <CardFooter className="text-muted-foreground text-sm">
@@ -42,7 +42,7 @@ export function DashboardCards() {
             {Format.currency(50000, "IDR")}
           </CardTitle>
           <CardAction className="bg-red-100 text-red-500 dark:bg-zinc-950 p-3 rounded-lg">
-            <TrendingDown />
+            <BanknoteArrowDown />
           </CardAction>
         </CardHeader>
       </Card>

@@ -20,11 +20,13 @@ export const categoryService = {
     name,
     type,
     icon,
+    color,
   }: {
     token: string;
     name: string;
     type: string;
     icon: string;
+    color: string;
   }) => {
     try {
       const res = await ApiClient.post(
@@ -33,12 +35,13 @@ export const categoryService = {
           name,
           type,
           icon,
+          color,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       const { data } = res;
       return data;
@@ -52,12 +55,14 @@ export const categoryService = {
     name,
     type,
     icon,
+    color,
   }: {
     token: string;
     id: string;
     name: string;
     type: string;
     icon: string;
+    color: string;
   }) => {
     try {
       const res = await ApiClient.put(
@@ -66,12 +71,13 @@ export const categoryService = {
           name,
           type,
           icon,
+          color,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       const { data } = res;
       return data;

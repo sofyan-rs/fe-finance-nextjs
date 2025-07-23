@@ -1,5 +1,5 @@
 import ApiClient from "@/config/api-client";
-import { IWallet } from "@/types/wallet-types";
+import { IWallet, WalletType } from "@/types/wallet-types";
 
 export const walletService = {
   getAll: async ({ token }: { token: string }) => {
@@ -15,18 +15,33 @@ export const walletService = {
       throw error;
     }
   },
-  create: async ({ token, name }: { token: string; name: string }) => {
+  create: async ({
+    token,
+    name,
+    balance,
+    type,
+    color,
+  }: {
+    token: string;
+    name: string;
+    balance: number;
+    type: WalletType;
+    color: string;
+  }) => {
     try {
       const res = await ApiClient.post(
         "/wallet",
         {
           name,
+          balance,
+          type,
+          color,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       const { data } = res;
       return data;
@@ -38,22 +53,31 @@ export const walletService = {
     token,
     id,
     name,
+    balance,
+    type,
+    color,
   }: {
     token: string;
     id: string;
     name: string;
+    balance: number;
+    type: WalletType;
+    color: string;
   }) => {
     try {
       const res = await ApiClient.put(
         `/wallet/${id}`,
         {
           name,
+          balance,
+          type,
+          color,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       const { data } = res;
       return data;

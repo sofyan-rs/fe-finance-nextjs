@@ -11,6 +11,7 @@ export const TableWalletActions = ({ wallet }: { wallet: IWallet }) => {
       <Button
         variant="outline"
         onClick={() => {
+          // console.log(wallet);
           setCurrentWalletData(wallet);
           setShowEditWallet(true);
         }}

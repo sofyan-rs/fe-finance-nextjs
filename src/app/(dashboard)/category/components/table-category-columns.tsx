@@ -2,17 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, BanknoteArrowDown, BanknoteArrowUp } from "lucide-react";
 import { TableCategoryActions } from "./table-category-actions";
 import { ICategory } from "@/types/category-types";
 import { TransactionType } from "@/types/transaction-types";
-import { Badge } from "@/components/ui/badge";
 
 export const tableCategoryColumns: ColumnDef<ICategory>[] = [
-  {
-    accessorKey: "icon",
-    header: "Icon",
-  },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -25,6 +20,15 @@ export const tableCategoryColumns: ColumnDef<ICategory>[] = [
           Name
           <ArrowUpDown className="size-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const name = row.original.name;
+      return (
+        <div className="flex items-center gap-2">
+          <span>{row.original.icon}</span>
+          {name}
+        </div>
       );
     },
   },
@@ -45,17 +49,27 @@ export const tableCategoryColumns: ColumnDef<ICategory>[] = [
     cell: ({ row }) => {
       const type = row.original.type;
       return (
-        <div className="flex items-center">
-          {type === TransactionType.expense ? (
-            <Badge variant="secondary" className="text-red-500">
-              Expense
-            </Badge>
+        <div className="flex items-center gap-2">
+          {type === TransactionType.income ? (
+            <BanknoteArrowUp className="size-4 text-green-500" />
           ) : (
-            <Badge variant="secondary" className="text-green-500">
-              Income
-            </Badge>
+            <BanknoteArrowDown className="size-4 text-red-500" />
           )}
+          {type.charAt(0).toUpperCase() + type.slice(1)}
         </div>
+      );
+    },
+  },
+  {
+    accessorKey: "color",
+    header: "Color",
+    cell: ({ row }) => {
+      const color = row.original.color;
+      return (
+        <div
+          className="size-3 rounded-full"
+          style={{ backgroundColor: color }}
+        />
       );
     },
   },

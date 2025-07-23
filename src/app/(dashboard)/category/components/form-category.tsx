@@ -40,12 +40,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { COLORS } from "@/constants/colors";
+import { BanknoteArrowDown, BanknoteArrowUp } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
   icon: z.string(),
+  color: z.string().min(1, {
+    message: "Color is required.",
+  }),
   type: z
     .string()
     .refine(
@@ -53,7 +58,7 @@ const formSchema = z.object({
         Object.values(TransactionType).includes(value as TransactionType),
       {
         message: "Invalid transaction type",
-      },
+      }
     ),
 });
 
@@ -71,6 +76,7 @@ export function FormCategory({ type }: { type: "ADD" | "EDIT" }) {
       name: currentCategoryData?.name || "",
       type: currentCategoryData?.type || TransactionType.income,
       icon: currentCategoryData?.icon || "😊",
+      color: currentCategoryData?.color || COLORS[0],
     },
   });
 
@@ -105,6 +111,7 @@ export function FormCategory({ type }: { type: "ADD" | "EDIT" }) {
       type: values.type,
       icon: values.icon,
       id: currentCategoryData?.id || "",
+      color: values.color,
     });
   }
 
@@ -179,18 +186,49 @@ export function FormCategory({ type }: { type: "ADD" | "EDIT" }) {
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem
-                        key={TransactionType.expense}
-                        value={TransactionType.expense}
-                      >
-                        Expense
-                      </SelectItem>
-                      <SelectItem
-                        key={TransactionType.income}
-                        value={TransactionType.income}
-                      >
-                        Income
-                      </SelectItem>
+                      {Object.values(TransactionType).map((type) => (
+                        <SelectItem key={type} value={type}>
+                          <div className="flex items-center gap-2">
+                            {type === TransactionType.income ? (
+                              <BanknoteArrowUp className="size-4 text-green-500" />
+                            ) : (
+                              <BanknoteArrowDown className="size-4 text-red-500" />
+                            )}
+                            {type.charAt(0).toUpperCase() + type.slice(1)}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="color"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Color</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value.toString()}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select color" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {COLORS.map((color) => (
+                        <SelectItem key={color} value={color}>
+                          <div
+                            className="size-3 rounded-full"
+                            style={{ backgroundColor: color }}
+                          />
+                          {color}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </FormControl>

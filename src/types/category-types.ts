@@ -5,6 +5,7 @@ export interface ICategory {
   name: string;
   type: TransactionType;
   icon: string;
+  color: string;
   userId: string;
   createdAt: string;
   modifiedAt: string;
