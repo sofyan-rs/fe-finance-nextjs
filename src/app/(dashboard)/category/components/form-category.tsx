@@ -140,7 +140,11 @@ export function FormCategory({ type }: { type: "ADD" | "EDIT" }) {
                         {field.value || "😊"}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
+                    <PopoverContent
+                      className="w-auto p-0"
+                      side="bottom"
+                      align="start"
+                    >
                       <EmojiPicker
                         className="h-[342px]"
                         onEmojiSelect={({ emoji }) => {
@@ -180,7 +184,7 @@ export function FormCategory({ type }: { type: "ADD" | "EDIT" }) {
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value.toString()}
+                    defaultValue={field.value}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select type" />
@@ -214,7 +218,7 @@ export function FormCategory({ type }: { type: "ADD" | "EDIT" }) {
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value.toString()}
+                    defaultValue={field.value}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select color" />

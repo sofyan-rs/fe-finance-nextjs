@@ -1,4 +1,5 @@
 "use client";
+
 import { DataTable } from "@/components/data-table";
 import { tableWalletColumns } from "./components/table-wallet-columns";
 import { PageHeader } from "./components/page-header";
@@ -11,6 +12,7 @@ import { SheetWalletEdit } from "./components/sheet-wallet-edit";
 export default function Page() {
   const { token } = useUserData();
   const { data: wallets, isLoading } = useWallets({ token: token! });
+
   return (
     <>
       <PageHeader />

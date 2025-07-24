@@ -148,7 +148,7 @@ export function FormWallet({ type }: { type: "ADD" | "EDIT" }) {
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value.toString()}
+                    defaultValue={field.value}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select type" />
@@ -188,7 +188,7 @@ export function FormWallet({ type }: { type: "ADD" | "EDIT" }) {
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value.toString()}
+                    defaultValue={field.value}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select color" />

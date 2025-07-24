@@ -11,6 +11,7 @@ import { AppConfig } from "@/config/app-config";
 import { Metadata } from "next";
 import { FormAccount } from "./components/form-account";
 import { FormPassword } from "./components/form-password";
+import { FormCurrency } from "./components/form-currency";
 
 export const metadata: Metadata = {
   title: "Settings - " + AppConfig.title,
@@ -55,6 +56,9 @@ export default function Page() {
                 <CardTitle>Currency</CardTitle>
                 <CardDescription>Change your account currency.</CardDescription>
               </CardHeader>
+              <CardContent>
+                <FormCurrency />
+              </CardContent>
             </Card>
           </TabsContent>
         </Tabs>

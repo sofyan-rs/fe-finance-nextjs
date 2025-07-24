@@ -13,26 +13,30 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { userService } from "@/services/user-service";
-import { useGetMe } from "@/hooks/fetch/use-get-me";
 import { useUserData } from "@/hooks/use-user-data";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { CURRENCY_LIST } from "@/constants/curency";
+import { settingService } from "@/services/setting-service";
+import { useGetSetting } from "@/hooks/fetch/use-get-setting";
 
 const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  email: z.email({
-    message: "Please enter a valid email address.",
+  currency: z.string().min(1, {
+    message: "Currency is required.",
   }),
 });
 
-export function FormAccount() {
+export function FormCurrency() {
   const { token } = useUserData();
-  const { data: user } = useGetMe({ token });
+  const { data: setting } = useGetSetting({ token });
   const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -40,17 +44,16 @@ export function FormAccount() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user?.name || "",
-      email: user?.email || "",
+      currency: setting?.currency || "",
     },
   });
 
   const mutation = useMutation({
-    mutationFn: userService.updateProfile,
+    mutationFn: settingService.updateSetting,
     onSuccess: () => {
-      toast.success("Account updated successfully!");
+      toast.success("Currency updated successfully!");
       queryClient.invalidateQueries({
-        queryKey: ["getMe"],
+        queryKey: ["getSetting"],
       });
     },
     onError: (error) => {
@@ -66,17 +69,15 @@ export function FormAccount() {
     setIsLoading(true);
     mutation.mutate({
       token: token!,
-      name: values.name,
-      email: values.email,
+      currency: values.currency,
     });
   }
 
   useEffect(() => {
-    if (user) {
-      form.setValue("name", user.name);
-      form.setValue("email", user.email);
+    if (setting) {
+      form.setValue("currency", setting.currency);
     }
-  }, [user, form]);
+  }, [setting, form]);
 
   return (
     <Form {...form}>
@@ -86,30 +87,34 @@ export function FormAccount() {
       >
         <FormField
           control={form.control}
-          name="name"
+          name="currency"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Currency</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} />
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select currency" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CURRENCY_LIST.map((currency) => (
+                      <SelectItem key={currency.name} value={currency.name}>
+                        <div className="flex items-center gap-2">
+                          {currency.name} ({currency.symbol})
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="m@example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <div className="flex">
           <Button type="submit" isLoading={isLoading}>
             Save Changes

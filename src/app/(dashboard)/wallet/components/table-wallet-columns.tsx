@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { TableWalletActions } from "./table-wallet-actions";
 import { IWallet, WalletType } from "@/types/wallet-types";
-import { Format } from "@/lib/formatter";
+import { CurrencyFormatter } from "@/components/currency-formatter";
 
 export const tableWalletColumns: ColumnDef<IWallet>[] = [
   {
@@ -80,7 +80,7 @@ export const tableWalletColumns: ColumnDef<IWallet>[] = [
     },
     cell: ({ row }) => {
       const balance = row.original.balance;
-      return Format.currency(balance, "IDR");
+      return <CurrencyFormatter value={balance} />;
     },
   },
   {
@@ -101,7 +101,7 @@ export const tableWalletColumns: ColumnDef<IWallet>[] = [
       const income = row.original.income;
       return (
         <span className="text-green-500">
-          + {Format.currency(income, "IDR")}
+          + <CurrencyFormatter value={income} />
         </span>
       );
     },
@@ -124,7 +124,7 @@ export const tableWalletColumns: ColumnDef<IWallet>[] = [
       const expense = row.original.expense;
       return (
         <span className="text-red-500">
-          - {Format.currency(expense, "IDR")}
+          - <CurrencyFormatter value={expense} />
         </span>
       );
     },

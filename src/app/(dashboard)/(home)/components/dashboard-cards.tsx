@@ -1,3 +1,4 @@
+import { CurrencyFormatter } from "@/components/currency-formatter";
 import {
   Card,
   CardAction,
@@ -5,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Format } from "@/lib/formatter";
 import { BanknoteArrowDown, BanknoteArrowUp } from "lucide-react";
 
 export function DashboardCards() {
@@ -17,7 +17,7 @@ export function DashboardCards() {
             Total Balance
           </CardDescription>
           <CardTitle className="text-center text-3xl font-semibold tabular-nums">
-            {Format.currency(200000, "IDR")}
+            <CurrencyFormatter value={200000} />
           </CardTitle>
         </CardHeader>
       </Card>
@@ -25,7 +25,7 @@ export function DashboardCards() {
         <CardHeader>
           <CardDescription>Income</CardDescription>
           <CardTitle className="text-3xl font-semibold tabular-nums text-green-500">
-            {Format.currency(20000, "IDR")}
+            <CurrencyFormatter value={20000} />
           </CardTitle>
           <CardAction className="bg-green-100 text-green-500 dark:bg-zinc-950 p-3 rounded-lg">
             <BanknoteArrowUp />
@@ -39,7 +39,7 @@ export function DashboardCards() {
         <CardHeader>
           <CardDescription>Expenses</CardDescription>
           <CardTitle className="text-3xl font-semibold tabular-nums text-red-500">
-            {Format.currency(50000, "IDR")}
+            <CurrencyFormatter value={50000} />
           </CardTitle>
           <CardAction className="bg-red-100 text-red-500 dark:bg-zinc-950 p-3 rounded-lg">
             <BanknoteArrowDown />

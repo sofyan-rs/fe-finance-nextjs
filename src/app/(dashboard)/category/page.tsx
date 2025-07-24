@@ -11,7 +11,6 @@ import { ModalCategoryRemove } from "./components/modal-category-remove";
 
 export default function Page() {
   const { token } = useUserData();
-
   const { data: categories, isLoading } = useCategories({ token: token! });
 
   return (

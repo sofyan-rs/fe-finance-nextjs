@@ -23,9 +23,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
+import { useGetSetting } from "@/hooks/fetch/use-get-setting";
 
 export const AppHeader = ({ token }: { token: string }) => {
-  const { setToken, removeToken } = useUserData();
+  const { setToken, removeToken, setSetting } = useUserData();
 
   const [showModalLogout, setShowModalLogout] = useState(false);
 
@@ -36,10 +37,17 @@ export const AppHeader = ({ token }: { token: string }) => {
   };
 
   const { data: user } = useGetMe({ token });
+  const { data: setting } = useGetSetting({ token });
 
   useEffect(() => {
     setToken(token);
   }, [token, setToken]);
+
+  useEffect(() => {
+    if (setting) {
+      setSetting({ currency: setting.currency });
+    }
+  }, [setting, setSetting]);
 
   return (
     <div className="border-b p-2 flex items-center justify-between gap-5">
