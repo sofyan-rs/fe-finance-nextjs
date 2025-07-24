@@ -6,8 +6,6 @@ import { jwtDecode } from "jwt-decode";
 export async function POST(request: NextRequest) {
   const { email, password } = await request.json();
 
-  console.log(`${apiURL}/auth/login`);
-
   const res = await fetch(`${apiURL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -27,11 +25,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(payload, { status: res.status });
   }
 
-  const token = payload.token;
+  const token = payload.data.token;
   if (!token) {
     return NextResponse.json(
       { error: "Missing token in response" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 

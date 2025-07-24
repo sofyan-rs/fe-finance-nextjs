@@ -9,7 +9,7 @@ export const walletService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { data } = res;
+      const { data } = res.data;
       return data as IWallet[];
     } catch (error) {
       throw error;
@@ -43,7 +43,7 @@ export const walletService = {
           },
         }
       );
-      const { data } = res;
+      const { data } = res.data;
       return data;
     } catch (error) {
       throw error;
@@ -79,7 +79,7 @@ export const walletService = {
           },
         }
       );
-      const { data } = res;
+      const { data } = res.data;
       return data;
     } catch (error) {
       throw error;
@@ -92,7 +92,7 @@ export const walletService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { data } = res;
+      const { data } = res.data;
       return data;
     } catch (error) {
       throw error;

@@ -9,7 +9,7 @@ export const userService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { data } = res;
+      const { data } = res.data;
       return data as IUser;
     } catch (error) {
       throw error;
@@ -35,9 +35,9 @@ export const userService = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
-      const { data } = res;
+      const { data } = res.data;
       return data;
     } catch (error) {
       throw error;
@@ -63,9 +63,9 @@ export const userService = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
-      const { data } = res;
+      const { data } = res.data;
       return data;
     } catch (error) {
       throw error;

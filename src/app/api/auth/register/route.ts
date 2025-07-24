@@ -25,11 +25,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(payload, { status: res.status });
   }
 
-  const token = payload.token;
+  const token = payload.data.token;
   if (!token) {
     return NextResponse.json(
       { error: "Missing token in response" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 

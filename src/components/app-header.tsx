@@ -8,7 +8,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { SidebarMenuButton, SidebarTrigger } from "./ui/sidebar";
-import Link from "next/link";
 import { AppBreadcrumb } from "./app-breadcrumb";
 import { Separator } from "./ui/separator";
 import { useGetMe } from "@/hooks/fetch/use-get-me";
@@ -64,9 +63,6 @@ export const AppHeader = ({ token }: { token: string }) => {
             side="bottom"
             className="w-[--radix-popper-anchor-width]"
           >
-            <DropdownMenuItem asChild>
-              <Link href="/account">Account</Link>
-            </DropdownMenuItem>
             <DropdownMenuItem
               variant="destructive"
               onClick={() => {

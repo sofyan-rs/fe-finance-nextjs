@@ -11,9 +11,9 @@ import { BanknoteArrowDown, BanknoteArrowUp } from "lucide-react";
 export function DashboardCards() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <Card className="lg:col-span-2 bg-primary text-primary-foreground">
+      <Card className="lg:col-span-2">
         <CardHeader>
-          <CardDescription className="text-center text-primary-foreground">
+          <CardDescription className="text-center">
             Total Balance
           </CardDescription>
           <CardTitle className="text-center text-3xl font-semibold tabular-nums">
