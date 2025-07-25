@@ -1,42 +1,59 @@
 import ApiClient from "@/config/api-client";
-import { ICategory } from "@/types/category-types";
-import { TransactionType } from "@/types/transaction-types";
+import { ITransaction, TransactionType } from "@/types/transaction-types";
 
-export const categoryService = {
-  getAll: async ({ token }: { token: string }) => {
+export const transactionService = {
+  getAll: async ({
+    token,
+    startDate,
+    endDate,
+  }: {
+    token: string;
+    startDate: string;
+    endDate: string;
+  }) => {
     try {
-      const res = await ApiClient.get("/category", {
+      const res = await ApiClient.get("/transaction", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        params: {
+          startDate,
+          endDate,
+        },
       });
       const { data } = res.data;
-      return data as ICategory[];
+      return data as ITransaction[];
     } catch (error) {
       throw error;
     }
   },
   create: async ({
     token,
-    name,
+    title,
+    amount,
     type,
-    icon,
-    color,
+    date,
+    categoryId,
+    walletId,
   }: {
     token: string;
-    name: string;
+    title: string;
+    amount: number;
     type: TransactionType;
-    icon: string;
-    color: string;
+    date: string;
+    categoryId: string;
+    walletId: string;
   }) => {
     try {
       const res = await ApiClient.post(
-        "/category",
+        "/transaction",
         {
-          name,
+          title,
+          amount,
           type,
-          icon,
-          color,
+          date,
+          categoryId,
+          walletId,
         },
         {
           headers: {
@@ -53,26 +70,32 @@ export const categoryService = {
   update: async ({
     token,
     id,
-    name,
+    title,
+    amount,
     type,
-    icon,
-    color,
+    date,
+    categoryId,
+    walletId,
   }: {
     token: string;
     id: string;
-    name: string;
+    title: string;
+    amount: number;
     type: TransactionType;
-    icon: string;
-    color: string;
+    date: string;
+    categoryId: string;
+    walletId: string;
   }) => {
     try {
       const res = await ApiClient.put(
-        `/category/${id}`,
+        `/transaction/${id}`,
         {
-          name,
+          title,
+          amount,
           type,
-          icon,
-          color,
+          date,
+          categoryId,
+          walletId,
         },
         {
           headers: {
@@ -88,7 +111,7 @@ export const categoryService = {
   },
   delete: async ({ token, id }: { token: string; id: string }) => {
     try {
-      const res = await ApiClient.delete(`/category/${id}`, {
+      const res = await ApiClient.delete(`/transaction/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

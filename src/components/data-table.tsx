@@ -22,15 +22,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Loader2, Search } from "lucide-react";
+import { CalendarDatePicker } from "./calendar-date-picker";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filterKey?: string;
   isLoading?: boolean;
+  startDate?: Date;
+  endDate?: Date;
+  setStartDate?: (date: Date) => void;
+  setEndDate?: (date: Date) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -38,7 +43,15 @@ export function DataTable<TData, TValue>({
   data,
   filterKey,
   isLoading,
+  startDate,
+  endDate,
+  setStartDate,
+  setEndDate,
 }: DataTableProps<TData, TValue>) {
+  const [selectedDateRange, setSelectedDateRange] = useState({
+    from: startDate,
+    to: endDate,
+  });
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -62,10 +75,26 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  useEffect(() => {
+    if (startDate && endDate) {
+      setSelectedDateRange({
+        from: startDate,
+        to: endDate,
+      });
+    }
+  }, [startDate, endDate]);
+
+  useEffect(() => {
+    if (selectedDateRange.from && selectedDateRange.to) {
+      setStartDate?.(selectedDateRange.from);
+      setEndDate?.(selectedDateRange.to);
+    }
+  }, [selectedDateRange, setStartDate, setEndDate]);
+
   return (
     <div className="w-full min-w-0">
-      {filterKey && (
-        <div className="flex items-center py-4">
+      <div className="flex items-center py-4 justify-between gap-4">
+        {filterKey && (
           <Input
             placeholder={`Search ${filterKey}...`}
             value={
@@ -77,8 +106,15 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
             icon={<Search className="size-4" />}
           />
-        </div>
-      )}
+        )}
+        {startDate && endDate && (
+          <CalendarDatePicker
+            date={selectedDateRange}
+            onDateSelect={setSelectedDateRange}
+            variant="outline"
+          />
+        )}
+      </div>
       <div className="w-full min-w-0 rounded-lg border">
         <div className="overflow-x-auto">
           <Table className="w-full" style={{ minWidth: "600px" }}>
@@ -92,7 +128,7 @@ export function DataTable<TData, TValue>({
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext(),
+                              header.getContext()
                             )}
                       </TableHead>
                     );
@@ -122,7 +158,7 @@ export function DataTable<TData, TValue>({
                       <TableCell key={cell.id} className="whitespace-nowrap">
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext(),
+                          cell.getContext()
                         )}
                       </TableCell>
                     ))}

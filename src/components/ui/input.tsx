@@ -1,22 +1,49 @@
+import { CURRENCY_LIST } from "@/constants/curency";
+import { useUserData } from "@/hooks/use-user-data";
 import { cn } from "@/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function Input({
   className,
   type,
   icon,
+  isCurrency,
   ...props
 }: React.ComponentProps<"input"> & {
   icon?: React.ReactNode;
+  isCurrency?: boolean;
 }) {
+  const { setting } = useUserData();
   const [showPassword, setShowPassword] = useState(false);
+  const [paddingLeft, setPaddingLeft] = useState(0);
+  const paddingRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isCurrency) {
+      setPaddingLeft(paddingRef.current?.offsetWidth || 0);
+    }
+  }, [isCurrency]);
 
   return (
-    <div className="relative">
+    <div className="relative flex items-center">
       {icon && (
         <div className="absolute inset-y-0 left-0 flex items-center pl-3">
           {icon}
+        </div>
+      )}
+      {isCurrency && (
+        <div
+          className="absolute inset-y-0 left-0 flex items-center pl-3"
+          ref={paddingRef}
+        >
+          <span className="text-muted-foreground border-r border-input pr-3">
+            {setting.currency
+              ? CURRENCY_LIST.find(
+                  (currency) => currency.name === setting.currency
+                )?.symbol
+              : "Rp"}
+          </span>
         </div>
       )}
       <input
@@ -29,6 +56,7 @@ function Input({
           className,
           icon ? "pl-10" : ""
         )}
+        style={{ paddingLeft: isCurrency ? paddingLeft + 12 : undefined }}
         {...props}
       />
       {type === "password" && (

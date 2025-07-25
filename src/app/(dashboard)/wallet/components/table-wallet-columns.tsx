@@ -31,18 +31,7 @@ export const tableWalletColumns: ColumnDef<IWallet>[] = [
   },
   {
     accessorKey: "type",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="!p-0"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Type
-          <ArrowUpDown className="size-4" />
-        </Button>
-      );
-    },
+    header: "Type",
     cell: ({ row }) => {
       const type = row.original.type;
       const color = row.original.color;

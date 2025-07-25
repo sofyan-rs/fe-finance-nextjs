@@ -108,7 +108,7 @@ export function FormCategory({ type }: { type: "ADD" | "EDIT" }) {
     mutation.mutate({
       token: token!,
       name: values.name,
-      type: values.type,
+      type: values.type as TransactionType,
       icon: values.icon,
       id: currentCategoryData?.id || "",
       color: values.color,

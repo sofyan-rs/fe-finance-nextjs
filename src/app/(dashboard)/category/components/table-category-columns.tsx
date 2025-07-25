@@ -34,18 +34,7 @@ export const tableCategoryColumns: ColumnDef<ICategory>[] = [
   },
   {
     accessorKey: "type",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="!p-0"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Type
-          <ArrowUpDown className="size-4" />
-        </Button>
-      );
-    },
+    header: "Type",
     cell: ({ row }) => {
       const type = row.original.type;
       return (

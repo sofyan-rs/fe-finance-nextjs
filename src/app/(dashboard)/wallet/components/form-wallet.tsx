@@ -127,6 +127,7 @@ export function FormWallet({ type }: { type: "ADD" | "EDIT" }) {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    isCurrency
                     type="number"
                     placeholder="1000000"
                     {...field}

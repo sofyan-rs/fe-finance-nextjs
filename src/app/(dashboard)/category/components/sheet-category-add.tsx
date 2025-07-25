@@ -19,7 +19,7 @@ export const SheetCategoryAdd = () => {
         <SheetHeader>
           <SheetTitle>Add Category</SheetTitle>
           <SheetDescription>
-            Create a new wallet for your financial transactions.
+            Create a new category for your financial transactions.
           </SheetDescription>
         </SheetHeader>
         <FormCategory type="ADD" />
