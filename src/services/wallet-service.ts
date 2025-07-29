@@ -1,7 +1,7 @@
 import ApiClient from "@/config/api-client";
 import { IWallet, WalletType } from "@/types/wallet-types";
 
-export const walletService = {
+export const WalletService = {
   getAll: async ({ token }: { token: string }) => {
     try {
       const res = await ApiClient.get("/wallet", {
@@ -9,42 +9,32 @@ export const walletService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { data } = res.data;
-      return data as IWallet[];
+      const { data: resData } = res.data;
+      return resData as IWallet[];
     } catch (error) {
       throw error;
     }
   },
   create: async ({
     token,
-    name,
-    balance,
-    type,
-    color,
+    data,
   }: {
     token: string;
-    name: string;
-    balance: number;
-    type: WalletType;
-    color: string;
+    data: {
+      name: string;
+      balance: number;
+      type: WalletType;
+      color: string;
+    };
   }) => {
     try {
-      const res = await ApiClient.post(
-        "/wallet",
-        {
-          name,
-          balance,
-          type,
-          color,
+      const res = await ApiClient.post("/wallet", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const { data } = res.data;
-      return data;
+      });
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }
@@ -52,35 +42,25 @@ export const walletService = {
   update: async ({
     token,
     id,
-    name,
-    balance,
-    type,
-    color,
+    data,
   }: {
     token: string;
     id: string;
-    name: string;
-    balance: number;
-    type: WalletType;
-    color: string;
+    data: {
+      name: string;
+      balance: number;
+      type: WalletType;
+      color: string;
+    };
   }) => {
     try {
-      const res = await ApiClient.put(
-        `/wallet/${id}`,
-        {
-          name,
-          balance,
-          type,
-          color,
+      const res = await ApiClient.put(`/wallet/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const { data } = res.data;
-      return data;
+      });
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }
@@ -92,8 +72,8 @@ export const walletService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { data } = res.data;
-      return data;
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }

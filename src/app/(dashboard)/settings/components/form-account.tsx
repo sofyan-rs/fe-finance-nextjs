@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { userService } from "@/services/user-service";
+import { UserService } from "@/services/user-service";
 import { useGetMe } from "@/hooks/fetch/use-get-me";
 import { useUserData } from "@/hooks/use-user-data";
 
@@ -46,7 +46,7 @@ export function FormAccount() {
   });
 
   const mutation = useMutation({
-    mutationFn: userService.updateProfile,
+    mutationFn: UserService.updateProfile,
     onSuccess: () => {
       toast.success("Account updated successfully!");
       queryClient.invalidateQueries({
@@ -66,8 +66,10 @@ export function FormAccount() {
     setIsLoading(true);
     mutation.mutate({
       token: token!,
-      name: values.name,
-      email: values.email,
+      data: {
+        name: values.name,
+        email: values.email,
+      },
     });
   }
 

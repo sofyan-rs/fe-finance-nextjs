@@ -1,7 +1,7 @@
 import ApiClient from "@/config/api-client";
 import { ISetting } from "@/types/setting-types";
 
-export const settingService = {
+export const SettingService = {
   getSetting: async ({ token }: { token: string }) => {
     try {
       const res = await ApiClient.get("/setting", {
@@ -9,33 +9,29 @@ export const settingService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { data } = res.data;
-      return data as ISetting;
+      const { data: resData } = res.data;
+      return resData as ISetting;
     } catch (error) {
       throw error;
     }
   },
   updateSetting: async ({
     token,
-    currency,
+    data,
   }: {
     token: string;
-    currency: string;
+    data: {
+      currency: string;
+    };
   }) => {
     try {
-      const res = await ApiClient.put(
-        "/setting",
-        {
-          currency,
+      const res = await ApiClient.put("/setting", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const { data } = res.data;
-      return data;
+      });
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }

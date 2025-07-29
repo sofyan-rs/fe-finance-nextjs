@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { userService } from "@/services/user-service";
+import { UserService } from "@/services/user-service";
 import { useUserData } from "@/hooks/use-user-data";
 
 const formSchema = z
@@ -52,7 +52,7 @@ export function FormPassword() {
   });
 
   const mutation = useMutation({
-    mutationFn: userService.updatePassword,
+    mutationFn: UserService.updatePassword,
     onSuccess: () => {
       toast.success("Password updated successfully!");
       form.reset();
@@ -70,8 +70,10 @@ export function FormPassword() {
     setIsLoading(true);
     mutation.mutate({
       token: token!,
-      currentPassword: values.currentPassword,
-      newPassword: values.newPassword,
+      data: {
+        currentPassword: values.currentPassword,
+        newPassword: values.newPassword,
+      },
     });
   }
 

@@ -18,7 +18,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
-import { walletService } from "@/services/wallet-service";
+import { WalletService } from "@/services/wallet-service";
 import { useWalletActions } from "../hooks/use-wallet-actions";
 import { useUserData } from "@/hooks/use-user-data";
 import { WalletType } from "@/types/wallet-types";
@@ -66,10 +66,11 @@ export function FormWallet({ type }: { type: "ADD" | "EDIT" }) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: type === "ADD" ? walletService.create : walletService.update,
+    mutationFn: type === "ADD" ? WalletService.create : WalletService.update,
     onSuccess: () => {
       toast.success("Wallet saved successfully!");
       queryClient.invalidateQueries({ queryKey: ["getWallets"] });
+      queryClient.invalidateQueries({ queryKey: ["getSummary"] });
       if (type === "ADD") {
         setShowAddWallet(false);
       } else {
@@ -89,11 +90,13 @@ export function FormWallet({ type }: { type: "ADD" | "EDIT" }) {
     setIsLoading(true);
     mutation.mutate({
       token: token!,
-      name: values.name,
       id: currentWalletData?.id || "",
-      balance: values.balance,
-      type: values.type,
-      color: values.color,
+      data: {
+        name: values.name,
+        balance: values.balance,
+        type: values.type,
+        color: values.color,
+      },
     });
   }
 

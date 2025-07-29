@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useUserData } from "@/hooks/use-user-data";
 import { useTransactionActions } from "../hooks/use-transaction-actions";
-import { transactionService } from "@/services/transaction-service";
+import { TransactionService } from "@/services/transaction-service";
 
 export const ModalTransactionRemove = () => {
   const { token } = useUserData();
@@ -31,10 +31,14 @@ export const ModalTransactionRemove = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: transactionService.delete,
+    mutationFn: TransactionService.delete,
     onSuccess: () => {
       toast.success("Transaction deleted successfully!");
       queryClient.invalidateQueries({ queryKey: ["getTransactions"] });
+      queryClient.invalidateQueries({ queryKey: ["getWallets"] });
+      queryClient.invalidateQueries({ queryKey: ["getWalletSummary"] });
+      queryClient.invalidateQueries({ queryKey: ["getPieChartData"] });
+      queryClient.invalidateQueries({ queryKey: ["getLineChartData"] });
       setShowDeleteTransaction(false);
     },
     onError: (error) => {

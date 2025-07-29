@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CURRENCY_LIST } from "@/constants/curency";
-import { settingService } from "@/services/setting-service";
+import { SettingService } from "@/services/setting-service";
 import { useGetSetting } from "@/hooks/fetch/use-get-setting";
 
 const formSchema = z.object({
@@ -49,7 +49,7 @@ export function FormCurrency() {
   });
 
   const mutation = useMutation({
-    mutationFn: settingService.updateSetting,
+    mutationFn: SettingService.updateSetting,
     onSuccess: () => {
       toast.success("Currency updated successfully!");
       queryClient.invalidateQueries({
@@ -69,7 +69,9 @@ export function FormCurrency() {
     setIsLoading(true);
     mutation.mutate({
       token: token!,
-      currency: values.currency,
+      data: {
+        currency: values.currency,
+      },
     });
   }
 

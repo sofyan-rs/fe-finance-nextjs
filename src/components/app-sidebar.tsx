@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 import {
   Bookmark,
+  Brain,
   Home,
   ReceiptText,
   Settings,
@@ -24,6 +25,7 @@ import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./theme-toggle";
 import { useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { AppConfig } from "@/config/app-config";
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -37,6 +39,11 @@ export function AppSidebar() {
       title: "Dashboard",
       url: "/",
       icon: Home,
+    },
+    {
+      title: "Assistant AI",
+      url: "/assistant",
+      icon: Brain,
     },
     {
       title: "Transaction",
@@ -72,7 +79,7 @@ export function AppSidebar() {
         <div className="flex items-center justify-between gap-2 px-2 pt-2">
           <div className="flex items-center gap-2">
             <Wallet className="text-red-500 size-5" />
-            <span className="font-semibold text-lg">Finance Tracker</span>
+            <span className="font-semibold text-lg">{AppConfig.title}</span>
           </div>
           <ThemeToggle />
         </div>

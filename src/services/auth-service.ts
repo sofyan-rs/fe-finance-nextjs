@@ -1,11 +1,12 @@
+import ApiClient from "@/config/api-client";
 import axios from "axios";
 
-export const authService = {
+export const AuthService = {
   login: async ({ email, password }: { email: string; password: string }) => {
     try {
       const res = await axios.post("/api/auth/login", { email, password });
-      const { data } = res;
-      return data;
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }
@@ -25,8 +26,17 @@ export const authService = {
         email,
         password,
       });
-      const { data } = res;
-      return data;
+      const { data: resData } = res.data;
+      return resData;
+    } catch (error) {
+      throw error;
+    }
+  },
+  loginWithGoogle: async () => {
+    try {
+      const res = await ApiClient.get("/auth/google");
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }

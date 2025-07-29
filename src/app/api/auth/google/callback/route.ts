@@ -3,13 +3,19 @@ import { cookies } from "next/headers";
 import { apiURL } from "@/config/base-url";
 import { jwtDecode } from "jwt-decode";
 
-export async function POST(request: NextRequest) {
-  const { name, email, password } = await request.json();
+export async function GET(request: NextRequest) {
+  const code = request.nextUrl.searchParams.get("code");
 
-  const res = await fetch(`${apiURL}/auth/register`, {
-    method: "POST",
+  if (!code) {
+    return NextResponse.json(
+      { error: "Missing code in request" },
+      { status: 400 }
+    );
+  }
+
+  const res = await fetch(`${apiURL}/auth/google/callback?code=${code}`, {
+    method: "GET",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, password }),
   });
 
   let payload;
@@ -43,5 +49,5 @@ export async function POST(request: NextRequest) {
     maxAge: expiresIn,
   });
 
-  return NextResponse.json({ success: true });
+  return NextResponse.redirect(new URL("/google-redirect", request.url));
 }

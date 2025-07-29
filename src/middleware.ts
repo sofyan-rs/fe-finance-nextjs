@@ -4,8 +4,15 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
   const pathname = request.nextUrl.pathname;
 
-  const isAuthRoute = ["/login", "/register", "/landing"].includes(pathname);
+  const isAuthRoute = [
+    "/login",
+    "/register",
+    "/landing",
+    "/google-redirect",
+  ].includes(pathname);
   const isProtected = !isAuthRoute;
+
+  console.log("token", token);
 
   if (token && isAuthRoute) {
     return NextResponse.redirect(new URL("/", request.url));

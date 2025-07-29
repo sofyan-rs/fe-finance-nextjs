@@ -6,18 +6,30 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { IWalletSummary } from "@/types/report-types";
 import { BanknoteArrowDown, BanknoteArrowUp } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export function DashboardCards() {
+export function DashboardCards({
+  walletSummary,
+  isLoading,
+}: {
+  walletSummary?: IWalletSummary;
+  isLoading: boolean;
+}) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
       <Card className="lg:col-span-2">
         <CardHeader>
           <CardDescription className="text-center">
             Total Balance
           </CardDescription>
-          <CardTitle className="text-center text-3xl font-semibold tabular-nums">
-            <CurrencyFormatter value={200000} />
+          <CardTitle className="text-center text-3xl font-semibold tabular-nums flex items-center justify-center">
+            {isLoading ? (
+              <Skeleton className="w-24 h-8" />
+            ) : (
+              <CurrencyFormatter value={walletSummary?.totalBalance || 0} />
+            )}
           </CardTitle>
         </CardHeader>
       </Card>
@@ -25,7 +37,11 @@ export function DashboardCards() {
         <CardHeader>
           <CardDescription>Income</CardDescription>
           <CardTitle className="text-3xl font-semibold tabular-nums text-green-500">
-            <CurrencyFormatter value={20000} />
+            {isLoading ? (
+              <Skeleton className="w-24 h-8" />
+            ) : (
+              <CurrencyFormatter value={walletSummary?.totalIncome || 0} />
+            )}
           </CardTitle>
           <CardAction className="bg-green-100 text-green-500 dark:bg-zinc-950 p-3 rounded-lg">
             <BanknoteArrowUp />
@@ -39,7 +55,11 @@ export function DashboardCards() {
         <CardHeader>
           <CardDescription>Expenses</CardDescription>
           <CardTitle className="text-3xl font-semibold tabular-nums text-red-500">
-            <CurrencyFormatter value={50000} />
+            {isLoading ? (
+              <Skeleton className="w-24 h-8" />
+            ) : (
+              <CurrencyFormatter value={walletSummary?.totalExpense || 0} />
+            )}
           </CardTitle>
           <CardAction className="bg-red-100 text-red-500 dark:bg-zinc-950 p-3 rounded-lg">
             <BanknoteArrowDown />

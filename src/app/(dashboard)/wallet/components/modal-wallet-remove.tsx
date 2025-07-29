@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { useWalletActions } from "../hooks/use-wallet-actions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { walletService } from "@/services/wallet-service";
+import { WalletService } from "@/services/wallet-service";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useUserData } from "@/hooks/use-user-data";
@@ -28,7 +28,7 @@ export const ModalWalletRemove = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: walletService.delete,
+    mutationFn: WalletService.delete,
     onSuccess: () => {
       toast.success("Wallet deleted successfully!");
       queryClient.invalidateQueries({ queryKey: ["getWallets"] });

@@ -7,4 +7,12 @@ export const CURRENCY_LIST = [
     name: "USD",
     symbol: "$",
   },
+  {
+    name: "EUR",
+    symbol: "€",
+  },
+  {
+    name: "JPY",
+    symbol: "¥",
+  },
 ];

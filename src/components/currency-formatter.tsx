@@ -10,5 +10,6 @@ export const CurrencyFormatter = ({ value }: { value: number }) => {
   return new Intl.NumberFormat(locale, {
     style: "currency",
     currency: setting.currency,
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
   }).format(value);
 };

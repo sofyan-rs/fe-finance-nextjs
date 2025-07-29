@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { categoryService } from "@/services/category-service";
+import { CategoryService } from "@/services/category-service";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useUserData } from "@/hooks/use-user-data";
@@ -28,7 +28,7 @@ export const ModalCategoryRemove = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: categoryService.delete,
+    mutationFn: CategoryService.delete,
     onSuccess: () => {
       toast.success("Category deleted successfully!");
       queryClient.invalidateQueries({ queryKey: ["getCategories"] });

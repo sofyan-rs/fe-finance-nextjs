@@ -37,7 +37,7 @@ import {
   Landmark,
   Wallet,
 } from "lucide-react";
-import { transactionService } from "@/services/transaction-service";
+import { TransactionService } from "@/services/transaction-service";
 import { useCategories } from "../../category/hooks/use-category-queries";
 import { useWallets } from "../../wallet/hooks/use-wallet-queries";
 import {
@@ -115,11 +115,14 @@ export function FormTransaction({ type }: { type: "ADD" | "EDIT" }) {
 
   const mutation = useMutation({
     mutationFn:
-      type === "ADD" ? transactionService.create : transactionService.update,
+      type === "ADD" ? TransactionService.create : TransactionService.update,
     onSuccess: () => {
       toast.success("Transaction saved successfully!");
       queryClient.invalidateQueries({ queryKey: ["getTransactions"] });
       queryClient.invalidateQueries({ queryKey: ["getWallets"] });
+      queryClient.invalidateQueries({ queryKey: ["getWalletSummary"] });
+      queryClient.invalidateQueries({ queryKey: ["getPieChartData"] });
+      queryClient.invalidateQueries({ queryKey: ["getLineChartData"] });
       if (type === "ADD") {
         setShowAddTransaction(false);
       } else {
@@ -139,13 +142,15 @@ export function FormTransaction({ type }: { type: "ADD" | "EDIT" }) {
     setIsLoading(true);
     mutation.mutate({
       token: token!,
-      title: values.title,
-      type: values.type as TransactionType,
-      amount: values.amount,
-      date: values.date.toISOString(),
-      categoryId: values.categoryId,
-      walletId: values.walletId,
       id: currentTransactionData?.id || "",
+      data: {
+        title: values.title,
+        type: values.type as TransactionType,
+        amount: values.amount,
+        date: values.date.toISOString(),
+        categoryId: values.categoryId,
+        walletId: values.walletId,
+      },
     });
   }
 

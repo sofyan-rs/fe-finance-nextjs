@@ -33,13 +33,15 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const response = NextResponse.json({ success: true });
+  const decoded = jwtDecode<{ exp: number }>(token);
+  const expiresIn = decoded.exp - Math.floor(Date.now() / 1000);
+
   (await cookies()).set("token", token, {
     httpOnly: true,
     path: "/",
     sameSite: "strict",
-    maxAge: jwtDecode(token).exp,
+    maxAge: expiresIn,
   });
 
-  return response;
+  return NextResponse.json({ success: true });
 }

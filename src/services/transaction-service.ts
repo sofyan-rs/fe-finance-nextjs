@@ -1,15 +1,17 @@
 import ApiClient from "@/config/api-client";
 import { ITransaction, TransactionType } from "@/types/transaction-types";
 
-export const transactionService = {
+export const TransactionService = {
   getAll: async ({
     token,
     startDate,
     endDate,
+    walletId,
   }: {
     token: string;
     startDate: string;
     endDate: string;
+    walletId?: string;
   }) => {
     try {
       const res = await ApiClient.get("/transaction", {
@@ -19,50 +21,37 @@ export const transactionService = {
         params: {
           startDate,
           endDate,
+          walletId,
         },
       });
-      const { data } = res.data;
-      return data as ITransaction[];
+      const { data: resData } = res.data;
+      return resData as ITransaction[];
     } catch (error) {
       throw error;
     }
   },
   create: async ({
     token,
-    title,
-    amount,
-    type,
-    date,
-    categoryId,
-    walletId,
+    data,
   }: {
     token: string;
-    title: string;
-    amount: number;
-    type: TransactionType;
-    date: string;
-    categoryId: string;
-    walletId: string;
+    data: {
+      title: string;
+      amount: number;
+      type: TransactionType;
+      date: string;
+      categoryId: string;
+      walletId: string;
+    };
   }) => {
     try {
-      const res = await ApiClient.post(
-        "/transaction",
-        {
-          title,
-          amount,
-          type,
-          date,
-          categoryId,
-          walletId,
+      const res = await ApiClient.post("/transaction", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const { data } = res.data;
-      return data;
+      });
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }
@@ -70,41 +59,27 @@ export const transactionService = {
   update: async ({
     token,
     id,
-    title,
-    amount,
-    type,
-    date,
-    categoryId,
-    walletId,
+    data,
   }: {
     token: string;
     id: string;
-    title: string;
-    amount: number;
-    type: TransactionType;
-    date: string;
-    categoryId: string;
-    walletId: string;
+    data: {
+      title: string;
+      amount: number;
+      type: TransactionType;
+      date: string;
+      categoryId: string;
+      walletId: string;
+    };
   }) => {
     try {
-      const res = await ApiClient.put(
-        `/transaction/${id}`,
-        {
-          title,
-          amount,
-          type,
-          date,
-          categoryId,
-          walletId,
+      const res = await ApiClient.put(`/transaction/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const { data } = res.data;
-      return data;
+      });
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }
@@ -116,8 +91,8 @@ export const transactionService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { data } = res.data;
-      return data;
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }

@@ -18,7 +18,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
-import { categoryService } from "@/services/category-service";
 import { useUserData } from "@/hooks/use-user-data";
 import { useCategoryActions } from "../hooks/use-category-actions";
 import { TransactionType } from "@/types/transaction-types";
@@ -42,6 +41,7 @@ import {
 } from "@/components/ui/popover";
 import { COLORS } from "@/constants/colors";
 import { BanknoteArrowDown, BanknoteArrowUp } from "lucide-react";
+import { CategoryService } from "@/services/category-service";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -84,7 +84,7 @@ export function FormCategory({ type }: { type: "ADD" | "EDIT" }) {
 
   const mutation = useMutation({
     mutationFn:
-      type === "ADD" ? categoryService.create : categoryService.update,
+      type === "ADD" ? CategoryService.create : CategoryService.update,
     onSuccess: () => {
       toast.success("Category saved successfully!");
       queryClient.invalidateQueries({ queryKey: ["getCategories"] });
@@ -107,11 +107,13 @@ export function FormCategory({ type }: { type: "ADD" | "EDIT" }) {
     setIsLoading(true);
     mutation.mutate({
       token: token!,
-      name: values.name,
-      type: values.type as TransactionType,
-      icon: values.icon,
       id: currentCategoryData?.id || "",
-      color: values.color,
+      data: {
+        name: values.name,
+        type: values.type as TransactionType,
+        icon: values.icon,
+        color: values.color,
+      },
     });
   }
 

@@ -1,6 +1,7 @@
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { AppConfig } from "@/config/app-config";
 import { Wallet } from "lucide-react";
 
 export default function AuthLayout({
@@ -17,7 +18,9 @@ export default function AuthLayout({
               <div className="flex items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
                   <Wallet className="text-red-500" />
-                  <span className="font-semibold text-xl">Finance Tracker</span>
+                  <span className="font-semibold text-xl">
+                    {AppConfig.title}
+                  </span>
                 </div>
                 <ThemeToggle />
               </div>

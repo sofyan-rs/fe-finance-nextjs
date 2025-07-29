@@ -56,7 +56,7 @@ export const tableCategoryColumns: ColumnDef<ICategory>[] = [
       const color = row.original.color;
       return (
         <div
-          className="size-3 rounded-full"
+          className="size-3 rounded-[2px]"
           style={{ backgroundColor: color }}
         />
       );

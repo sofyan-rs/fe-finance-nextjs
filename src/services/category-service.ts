@@ -2,7 +2,7 @@ import ApiClient from "@/config/api-client";
 import { ICategory } from "@/types/category-types";
 import { TransactionType } from "@/types/transaction-types";
 
-export const categoryService = {
+export const CategoryService = {
   getAll: async ({ token }: { token: string }) => {
     try {
       const res = await ApiClient.get("/category", {
@@ -10,42 +10,32 @@ export const categoryService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { data } = res.data;
-      return data as ICategory[];
+      const { data: resData } = res.data;
+      return resData as ICategory[];
     } catch (error) {
       throw error;
     }
   },
   create: async ({
     token,
-    name,
-    type,
-    icon,
-    color,
+    data,
   }: {
     token: string;
-    name: string;
-    type: TransactionType;
-    icon: string;
-    color: string;
+    data: {
+      name: string;
+      type: TransactionType;
+      icon: string;
+      color: string;
+    };
   }) => {
     try {
-      const res = await ApiClient.post(
-        "/category",
-        {
-          name,
-          type,
-          icon,
-          color,
+      const res = await ApiClient.post("/category", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const { data } = res.data;
-      return data;
+      });
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }
@@ -53,35 +43,25 @@ export const categoryService = {
   update: async ({
     token,
     id,
-    name,
-    type,
-    icon,
-    color,
+    data,
   }: {
     token: string;
     id: string;
-    name: string;
-    type: TransactionType;
-    icon: string;
-    color: string;
+    data: {
+      name: string;
+      type: TransactionType;
+      icon: string;
+      color: string;
+    };
   }) => {
     try {
-      const res = await ApiClient.put(
-        `/category/${id}`,
-        {
-          name,
-          type,
-          icon,
-          color,
+      const res = await ApiClient.put(`/category/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const { data } = res.data;
-      return data;
+      });
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }
@@ -93,8 +73,8 @@ export const categoryService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { data } = res.data;
-      return data;
+      const { data: resData } = res.data;
+      return resData;
     } catch (error) {
       throw error;
     }
