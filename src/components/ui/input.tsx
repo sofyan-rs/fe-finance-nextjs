@@ -1,3 +1,5 @@
+"use client";
+
 import { CURRENCY_LIST } from "@/constants/curency";
 import { useUserData } from "@/hooks/use-user-data";
 import { cn } from "@/lib/utils";
