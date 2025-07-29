@@ -12,8 +12,6 @@ export function middleware(request: NextRequest) {
   ].includes(pathname);
   const isProtected = !isAuthRoute;
 
-  console.log("token", token);
-
   if (token && isAuthRoute) {
     return NextResponse.redirect(new URL("/", request.url));
   }
